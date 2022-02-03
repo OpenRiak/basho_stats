@@ -1,3 +1,5 @@
+# basho_stats
+
 [![Erlang CI Actions Status](https://github.com/basho/basho_stats/workflows/Erlang%20CI/badge.svg)](https://github.com/basho/basho_stats/actions)
 
 ```shell
