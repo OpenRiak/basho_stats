@@ -1,7 +1,7 @@
 %% -------------------------------------------------------------------
 %%
-%% Copyright (c) 2011-2017 Basho Technologies, Inc.
 %% Copyright (c) 2009 Dave Smith (dizzyd@dizzyd.com)
+%% Copyright (c) 2011-2017 Basho Technologies, Inc.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -252,20 +252,25 @@ prop_quantile() ->
     %% XXX since we try to generate the quantile from the histogram, not the
     %% original data, our results and Rs don't always agree and this means the
     %% test will occasionally fail. There's not an easy way to fix this.
-    ?FORALL({Min, Bins, Xlen, Q}, {choose(1, 99), choose(50, 200), choose(100, 500),
-                                    choose(0,100)},
-             ?LET(Max, choose(Min+1, 100),
-                  ?LET(Xs, vector(Xlen, choose(Min, Max)),
-                      ?WHENFAIL(
-                          begin
-                                  io:format("Min ~p, Max ~p, Bins ~p, Q ~p, Xs ~w~n",
-                                      [Min, Max, Bins, Q, Xs]),
-                                  Command = ?FMT("quantile(x, ~4.2f, type=4)", [Q * 0.01]),
-                                  InputStr = [integer_to_list(I) || I <- Xs],
-                                  io:format(?FMT("x <- c(~s)\n", [string:join(InputStr, ",")])),
-                                  io:format(?FMT("write(~s, ncolumns=1, file=stdout())\n", [Command]))
-                          end,
-                          qc_quantile_check(Q, Min, Max, Bins, Xs))))).
+    ?SOMETIMES(3,
+               %% as the comment above states, this is
+               %% non-deterministic, but it should _never_ fail 3
+               %% times of 3
+               ?FORALL({Min, Bins, Xlen, Q}, {choose(1, 99), choose(50, 200), choose(100, 500),
+                                              choose(0,100)},
+            ?LET(Max, choose(Min+1, 100),
+                 ?LET(Xs, vector(Xlen, choose(Min, Max)),
+                                 ?WHENFAIL(
+                                    begin
+                                        io:format("Min ~p, Max ~p, Bins ~p, Q ~p, Xs ~w~n",
+                                                  [Min, Max, Bins, Q, Xs]),
+                                        Command = ?FMT("quantile(x, ~4.2f, type=4)", [Q * 0.01]),
+                                        InputStr = [integer_to_list(I) || I <- Xs],
+                                        io:format(?FMT("x <- c(~s)\n", [string:join(InputStr, ",")])),
+                                        io:format(?FMT("write(~s, ncolumns=1, file=stdout())\n", [Command]))
+                                    end,
+
+                                    qc_quantile_check(Q, Min, Max, Bins, Xs)))))).
 
 qc_quantile_test() ->
     ?assertEqual(ok, basho_stats_utils:r_check()),

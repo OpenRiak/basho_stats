@@ -1,8 +1,10 @@
-# basho_stats [![Build Status](https://secure.travis-ci.org/basho/basho_stats.png?branch=master)](http://travis-ci.org/basho/basho_stats)
+# Basho Stats
 
-Now with Rebar3 and Thumbs!
+[![Erlang CI Actions Status](https://github.com/basho/basho_stats/workflows/Erlang%20CI/badge.svg)](https://github.com/basho/basho_stats/actions)
 
-Following are a few of the commands you might run, look in the [Thumbs](.thumbs.yml) file for more.
+## Build and Test
+
+Following are a few of the commands you might run:
 
 ```shell
 $ rebar3 as prod compile

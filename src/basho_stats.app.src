@@ -1,6 +1,6 @@
 {application, basho_stats, [
     {description,   "Basic Erlang statistics library"},
-    {vsn,           git},
+    {vsn,           "1.1.1"},
     {modules,       []},
     {registered,    []},
     {applications,  [kernel, stdlib, sasl]},

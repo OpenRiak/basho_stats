@@ -1,7 +1,7 @@
 %% -------------------------------------------------------------------
 %%
-%% Copyright (c) 2011-2017 Basho Technologies, Inc.
 %% Copyright (c) 2009 Dave Smith (dizzyd@dizzyd.com)
+%% Copyright (c) 2011-2017 Basho Technologies, Inc.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
