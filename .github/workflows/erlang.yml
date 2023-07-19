@@ -1,34 +1,40 @@
 name: Erlang CI
 
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-
+on: [push, pull_request]
 
 jobs:
-
   build:
-
-    runs-on: ubuntu-latest
+    name: OTP-${{ matrix.otp }} Rebar-${{ matrix.rebar }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        otp:
-          - "24.2.1.0"
-          - "23.3.4.11"
-          - "22.3.4.24"
-
-    container:
-      image: erlang:${{ matrix.otp }}
+        os: [ubuntu-latest, macos-latest]
+        otp: ['24']
+        rebar: ['3.22']
 
     steps:
       - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp }}
+          rebar3-version: ${{ matrix.rebar }}
+
+      - name: Info
+        run: rebar3 --version
+
       - name: Compile
-        run: ./rebar3 compile
-      - name: Run xref and dialyzer
-        run: ./rebar3 do xref, dialyzer
-      - name: Run eunit
-        run: ./rebar3 eunit
+        run: rebar3 as prod do compile
+
+      - name: XRef
+        run: rebar3 as check do xref
+
+      - name: Dialyzer
+        run: rebar3 as check do dialyzer
+
+      - name: Run Tests
+        run: rebar3 as gha do eunit
+
+      - name: Build Docs
+        run: rebar3 edoc
