@@ -1,6 +1,6 @@
 # Basho Stats
 
-[![Erlang CI Actions Status](https://github.com/basho/basho_stats/workflows/Erlang%20CI/badge.svg)](https://github.com/basho/basho_stats/actions)
+[![Basho Stats OpenRiak Status](https://github.com/OpenRiak/basho_stats/actions/workflows/erlang.yml/badge.svg)](https://github.com/OpenRiak/basho_stats/actions/workflows/erlang.yml)
 
 ## Build and Test
 
